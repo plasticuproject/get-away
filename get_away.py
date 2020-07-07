@@ -18,23 +18,23 @@ def frame(level, new, end, win):
     # set up map with nodes
     matrix = level
     grid = Grid(matrix=matrix)
-    start = grid.node(new[0], new[1])
+    starts = grid.node(new[0], new[1])
     ends = grid.node(end[0], end[1])
-    win = grid.node(win[0], win[1])
+    wins = grid.node(win[0], win[1])
 
     # pathfinding for NPC AI
     finder = AStarFinder()
-    #finder = AStarFinder(diagonal_movement=DiagonalMovement.always)
-    path, runs = finder.find_path(start, ends, grid)
+    path, runs = finder.find_path(starts, ends, grid)
 
-    # print frame
-    print(grid.grid_str(path=path, start=start, end=ends, win=win)[0])
-    walkable = grid.grid_str(path=path, start=start, end=ends, win=win)[1]
+    # print frame and get open spaces
+    print(grid.grid_str(path=path, start=starts, end=ends, win=wins)[0])
+    walkable = grid.grid_str(path=path, start=starts, end=ends, win=wins)[1]
 
 
-    # return new position of NPC
+    # gives the NPC a random chance of moving 1, 2, or 3
+    # spaces along the path, and returns new position of npc
+    # and list of open spaces
     rand3 = randint(0,3)
-
     try:
         locale = path[rand3]
         return locale, walkable
@@ -90,16 +90,12 @@ def main_loop(levels):
     # setup random level
     level = levels[randint(0,4)]
     level_map = level().matrix
-    npc = [] 
-    npc.append(level().start)
+    npc = [level().start] 
     player = level().end
     win = level().win
 
-    # win/loose logic
+    # win logic
     while True:
-        if npc[0] == player:
-            print('\n[*]Ninja you got caught.[*]\n')
-            quit()
         if player == win:
             print('\n[*]Ninja you won.[*]\n')
             input()
@@ -113,7 +109,7 @@ def main_loop(levels):
 
 if __name__ == '__main__':
 
-    # run main game loop
+    # print welcome screen
     print('\nA game. You are the $. Girlfriend is the &. Run to the @.')
     print('Use wads to move (press return after choice), press q to quit.')
     print('Dotted line is the path your girlfriend plans to take to get you.')
@@ -121,6 +117,7 @@ if __name__ == '__main__':
     print('Press return to start the game.')
     input()
 
+    # run main game loop
     while True:
         try:
             main_loop(levels)
