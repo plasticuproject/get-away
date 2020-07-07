@@ -19,45 +19,34 @@ def frame(level, new, end, win):
     matrix = level
     grid = Grid(matrix=matrix)
     start = grid.node(new[0], new[1])
-    end = grid.node(end[0], end[1])
+    ends = grid.node(end[0], end[1])
     win = grid.node(win[0], win[1])
 
     # pathfinding for NPC AI
     finder = AStarFinder()
     #finder = AStarFinder(diagonal_movement=DiagonalMovement.always)
-    path, runs = finder.find_path(start, end, grid)
+    path, runs = finder.find_path(start, ends, grid)
 
     # print frame
-    print(grid.grid_str(path=path, start=start, end=end, win=win)[0])
-    walkable = grid.grid_str(path=path, start=start, end=end, win=win)[1]
+    print(grid.grid_str(path=path, start=start, end=ends, win=win)[0])
+    walkable = grid.grid_str(path=path, start=start, end=ends, win=win)[1]
 
 
     # return new position of NPC
+    rand3 = randint(1,2)
+
     try:
-        if path[1][0] == new[0] and path[1][1] == new[1] - 1:
-            if (new[0], new[1] - 2) in walkable:
-                return (new[0], new[1] - 2), walkable
-            else:
-                return path[1], walkable
-        elif path[1][1] == new[1] and path[1][0] == new[0] - 1:
-            if (new[0] - 2, new[1]) in walkable:
-                return (new[0] - 2, new[1]), walkable
-            else:
-                return path[1], walkable
-        elif path[1][0] == new[0] and path[1][1] == new[1] + 1:
-            if (new[0], new[1] + 2) in walkable:
-                return (new[0], new[1] + 2), walkable
-            else:
-                return path[1], walkable
-        elif path[1][1] == new[1] and path[1][0] == new[0] + 1:
-            if (new[0] + 2, new[1]) in walkable:
-                return (new[0] + 2, new[1]), walkable
-            else:
-                return path[1], walkable
-        else:
-            return path[1], walkable
+        locale = path[rand3]
+        return locale, walkable
     except IndexError:
-        return path[0], walkable
+        try:
+            return path[2], walkable
+
+        # loose logic
+        except IndexError:
+            print('\n[*]Ninja you got caught.[*]\n')
+            quit()
+
 
 
 def controls(direction):
