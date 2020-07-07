@@ -31,6 +31,7 @@ def frame(level, new, end, win):
     print(grid.grid_str(path=path, start=start, end=end, win=win))
 
     # return new position of NPC
+    # TODO this is buggy, crashes near boarders, needs fixed
     if path[1][0] == new[0] and path[1][1] == new[1] - 1:
         return (new[0], new[1] - 2)
     elif path[1][1] == new[1] and path[1][0] == new[0] - 1:
