@@ -31,8 +31,6 @@ def frame(level, new, end, win):
     print(grid.grid_str(path=path, start=start, end=end, win=win))
 
     # return new position of NPC
-    print(path[1])
-    print(new)
     if path[1][0] == new[0] and path[1][1] == new[1] - 1:
         return (new[0], new[1] - 2)
     elif path[1][1] == new[1] and path[1][0] == new[0] - 1:
