@@ -30,7 +30,6 @@ def frame(level, new, end, win):
     print(grid.grid_str(path=path, start=starts, end=ends, win=wins)[0])
     walkable = grid.grid_str(path=path, start=starts, end=ends, win=wins)[1]
 
-
     # gives the NPC a random chance of moving 0, 1, or 2
     # spaces along the path, and returns new position of npc
     # and list of open spaces
@@ -46,7 +45,6 @@ def frame(level, new, end, win):
         except IndexError:
             print('\n[*]Ninja you got caught.[*]\n')
             quit()
-
 
 
 def controls(direction):

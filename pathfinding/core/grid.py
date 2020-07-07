@@ -2,6 +2,7 @@
 from .node import Node
 import os
 
+
 try:
     import numpy as np
     USE_NUMPY = True
@@ -9,6 +10,8 @@ except ImportError:
     USE_NUMPY = False
 from pathfinding.core.diagonal_movement import DiagonalMovement
 
+
+# set colors for linux
 if os.name == 'nt':
     green = ''
     red = ''
@@ -21,6 +24,7 @@ else:
     blue = '\033[34m'
     yellow = '\033[33m'
     endc = '\033[m'
+
 
 def build_nodes(width, height, matrix=None, inverse=False):
     """
@@ -47,6 +51,7 @@ def build_nodes(width, height, matrix=None, inverse=False):
 
 
 class Grid(object):
+
     def __init__(self, width=0, height=0, matrix=None, inverse=False):
         """
         a grid represents the map (as 2d-list of nodes).
@@ -63,6 +68,7 @@ class Grid(object):
         else:
             self.nodes = [[]]
 
+
     def node(self, x, y):
         """
         get node at position
@@ -71,6 +77,7 @@ class Grid(object):
         :return:
         """
         return self.nodes[y][x]
+
 
     def inside(self, x, y):
         """
@@ -81,11 +88,13 @@ class Grid(object):
         """
         return 0 <= x < self.width and 0 <= y < self.height
 
+
     def walkable(self, x, y):
         """
         check, if the tile is inside grid and if it is set as walkable
         """
         return self.inside(x, y) and self.nodes[y][x].walkable
+
 
     def neighbors(self, node, diagonal_movement=DiagonalMovement.never):
         """
@@ -148,10 +157,12 @@ class Grid(object):
 
         return neighbors
 
+
     def cleanup(self):
         for y_nodes in self.nodes:
             for node in y_nodes:
                 node.cleanup()
+
 
     def grid_str(self, path=None, start=None, end=None, win=None,
                  border=True, start_chr=red+'&'+endc, end_chr=green+'$'+endc,
@@ -207,3 +218,4 @@ class Grid(object):
         if border:
             data += '\n+{}+'.format('-'*len(self.nodes[0]))
         return data, open_cell
+

@@ -1,5 +1,6 @@
 from random import randint
 
+
 class MapOne:
 
     # initialize map instance

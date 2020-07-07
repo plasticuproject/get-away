@@ -130,3 +130,4 @@ def smoothen_path(grid, path, use_raytrace=False):
 
     new_path.append(path[-1])
     return new_path
+

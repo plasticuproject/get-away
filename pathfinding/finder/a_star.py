@@ -7,6 +7,7 @@ from .finder import Finder, TIME_LIMIT, MAX_RUNS, BY_END
 
 
 class AStarFinder(Finder):
+
     def __init__(self, heuristic=None, weight=1,
                  diagonal_movement=DiagonalMovement.never,
                  time_limit=TIME_LIMIT,
@@ -38,6 +39,7 @@ class AStarFinder(Finder):
                 # When diagonal movement is allowed the manhattan heuristic is
                 # not admissible it should be octile instead
                 self.heuristic = octile
+
 
     def check_neighbors(self, start, end, grid, open_list,
                         open_value=True, backtrace_by=None):
@@ -76,6 +78,7 @@ class AStarFinder(Finder):
         # the end has not been reached (yet) keep the find_path loop running
         return None
 
+
     def find_path(self, start, end, grid):
         """
         find a path from start to end node on grid using the A* algorithm
@@ -87,3 +90,4 @@ class AStarFinder(Finder):
         start.g = 0
         start.f = 0
         return super(AStarFinder, self).find_path(start, end, grid)
+

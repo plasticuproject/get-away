@@ -16,16 +16,19 @@ BY_END = 2
 
 
 class ExecutionTimeException(Exception):
+
     def __init__(self, message):
         super(ExecutionTimeException, self).__init__(message)
 
 
 class ExecutionRunsException(Exception):
+
     def __init__(self, message):
         super(ExecutionRunsException, self).__init__(message)
 
 
 class Finder(object):
+
     def __init__(self, heuristic=None, weight=1,
                  diagonal_movement=DiagonalMovement.never,
                  weighted=True,
@@ -54,6 +57,7 @@ class Finder(object):
         self.weight = weight
         self.heuristic = heuristic
 
+
     def calc_cost(self, node_a, node_b):
         """
         get the distance between current node and the neighbor (cost)
@@ -71,6 +75,7 @@ class Finder(object):
 
         return node_a.g + ng
 
+
     def apply_heuristic(self, node_a, node_b, heuristic=None):
         """
         helper function to apply heuristic
@@ -81,6 +86,7 @@ class Finder(object):
             abs(node_a.x - node_b.x),
             abs(node_a.y - node_b.y))
 
+
     def find_neighbors(self, grid, node, diagonal_movement=None):
         '''
         find neighbor, same for Djikstra, A*, Bi-A*, IDA*
@@ -88,6 +94,7 @@ class Finder(object):
         if not diagonal_movement:
             diagonal_movement = self.diagonal_movement
         return grid.neighbors(node, diagonal_movement=diagonal_movement)
+
 
     def keep_running(self):
         """
@@ -105,6 +112,7 @@ class Finder(object):
                 '{} took longer than {} seconds, aborting!'.format(
                     self.__class__.__name__, self.time_limit))
 
+                
     def process_node(self, node, parent, end, open_list, open_value=True):
         '''
         we check if the given node is path of the path by calculating its
@@ -139,6 +147,7 @@ class Finder(object):
                 open_list.remove(node)
                 heapq.heappush(open_list, node)
 
+
     def find_path(self, start, end, grid):
         """
         find a path from start to end node on grid by iterating over
@@ -164,3 +173,4 @@ class Finder(object):
 
         # failed to find path
         return [], self.runs
+
