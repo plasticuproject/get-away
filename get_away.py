@@ -33,7 +33,7 @@ def frame(level, new, end, win):
 
 
     # return new position of NPC
-    rand3 = randint(1,2)
+    rand3 = randint(0,3)
 
     try:
         locale = path[rand3]
