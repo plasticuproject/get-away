@@ -100,15 +100,16 @@ def main_loop(levels):
 
 if __name__ == '__main__':
 
+    # print welcome screen
+    print('\nA game. You are the $. Girlfriend is the &. Run to the @.')
+    print('Use wads to move (press return after choice), press q to quit.')
+    print('Dotted line is the path your girlfriend plans to take to get you.')
+    print('Get to the exit (@) before she hits you with a shoe.')
+    print('Press return to start the game.')
+    input()
+    
+    # run main game loop    
     while True:
-
-        # run main game loop
-        print('\nA game. You are the $. Girlfriend is the &. Run to the @.')
-        print('Use wads to move (press return after choice), press q to quit.')
-        print('Dotted line is the path your girlfriend plans to take to get you.')
-        print('Get to the exit (@) before she hits you with a shoe.')
-        print('Press return to start the game.')
-        input()
         try:
             main_loop(levels)
         except KeyboardInterrupt:
