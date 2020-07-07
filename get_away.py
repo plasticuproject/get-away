@@ -31,7 +31,7 @@ def frame(level, new, end, win):
     walkable = grid.grid_str(path=path, start=starts, end=ends, win=wins)[1]
 
 
-    # gives the NPC a random chance of moving 1, 2, or 3
+    # gives the NPC a random chance of moving 0, 1, or 2
     # spaces along the path, and returns new position of npc
     # and list of open spaces
     rand3 = randint(0,3)
