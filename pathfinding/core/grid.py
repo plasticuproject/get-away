@@ -174,6 +174,7 @@ class Grid(object):
         :return:
         """
         data = ''
+        open_cell = []
         if border:
             data = '+{}+'.format('-'*len(self.nodes[0]))
         for y in range(len(self.nodes)):
@@ -183,12 +184,15 @@ class Grid(object):
                 if node == start:
                     line += start_chr
                 elif node == end:
+                    open_cell.append((x,y))
                     line += end_chr
                 elif node == win:
                     line += win_chr
                 elif path and ((node.x, node.y) in path or node in path):
+                    open_cell.append((x,y))
                     line += path_chr
                 elif node.walkable:
+                    open_cell.append((x, y))
                     # empty field
                     weight = str(node.weight) if node.weight < 10 else '+'
                     line += weight if show_weight else empty_chr
@@ -201,4 +205,4 @@ class Grid(object):
             data += line
         if border:
             data += '\n+{}+'.format('-'*len(self.nodes[0]))
-        return data
+        return data, open_cell

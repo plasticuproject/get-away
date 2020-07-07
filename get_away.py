@@ -28,20 +28,37 @@ def frame(level, new, end, win):
     path, runs = finder.find_path(start, end, grid)
 
     # print frame
-    print(grid.grid_str(path=path, start=start, end=end, win=win))
+    print(grid.grid_str(path=path, start=start, end=end, win=win)[0])
+    walkable = grid.grid_str(path=path, start=start, end=end, win=win)[1]
+
 
     # return new position of NPC
     # TODO this is buggy, crashes near boarders, needs fixed
-    if path[1][0] == new[0] and path[1][1] == new[1] - 1:
-        return (new[0], new[1] - 2)
-    elif path[1][1] == new[1] and path[1][0] == new[0] - 1:
-        return (new[0] - 2, new[1])
-    elif path[1][0] == new[0] and path[1][1] == new[1] + 1:
-        return (new[0], new[1] + 2)
-    elif path[1][1] == new[1] and path[1][0] == new[0] + 1:
-        return (new[0] + 2, new[1])
-    else:
-        return path[1]
+    try:
+        if path[1][0] == new[0] and path[1][1] == new[1] - 1:
+            if (new[0], new[1] - 2) in walkable:
+                return (new[0], new[1] - 2), walkable
+            else:
+                return path[1], walkable
+        elif path[1][1] == new[1] and path[1][0] == new[0] - 1:
+            if (new[0] - 2, new[1]) in walkable:
+                return (new[0] - 2, new[1]), walkable
+            else:
+                return path[1], walkable
+        elif path[1][0] == new[0] and path[1][1] == new[1] + 1:
+            if (new[0], new[1] + 2) in walkable:
+                return (new[0], new[1] + 2), walkable
+            else:
+                return path[1], walkable
+        elif path[1][1] == new[1] and path[1][0] == new[0] + 1:
+            if (new[0] + 2, new[1]) in walkable:
+                return (new[0] + 2, new[1]), walkable
+            else:
+                return path[1], walkable
+        else:
+            return path[1], walkable
+    except IndexError:
+        return path[0], walkable
 
 
 def controls(direction):
@@ -56,7 +73,7 @@ def controls(direction):
     return thing[direction.lower()]
 
 
-def move(y):
+def move(player, npc):
 
     # user input
     valid_d = ['w', 's', 'd', 'a', '']
@@ -72,7 +89,11 @@ def move(y):
         direction = input('[*]Your move: ')
     if direction == '':
         direction = 'n'
-    return tuple(map(sum,zip(controls(direction), y)))
+    move_to =  tuple(map(sum,zip(controls(direction), player)))
+    if move_to in npc:
+        return move_to
+    else:
+        return player
 
 
 # main game loop
@@ -81,33 +102,26 @@ def main_loop(levels):
     # setup random level
     level = levels[randint(0,4)]
     level_map = level().matrix
-    x = level().start
-    y = level().end
+    npc = [] 
+    npc.append(level().start)
+    player = level().end
     win = level().win
-    back_y = y
+    back_player = player
 
     # win/loose logic
     while True:
-        if x == y:
+        if npc[0] == player:
             print('\n[*]Ninja you got caught.[*]\n')
             quit()
-        if y == win:
+        if player == win:
             print('\n[*]Ninja you won.[*]\n')
             input()
             break
 
-        try:
-            # clear screen and draw new frame
-            os.system('cls' if os.name == 'nt' else 'clear')
-            x = frame(level_map, x, y, win)
-        except IndexError:
-            # colision detection for border and walls
-            # will waste a user turn
-            os.system('cls' if os.name == 'nt' else 'clear')
-            x = frame(level_map, x, back_y, win)
-            y = back_y
-        back_y = y
-        y = move(y)
+        # clear screen and draw new frame
+        os.system('cls' if os.name == 'nt' else 'clear')
+        npc = frame(level_map, npc[0], player, win)
+        player = move(player, npc[1])
 
 
 if __name__ == '__main__':
