@@ -187,6 +187,7 @@ class Grid(object):
                     open_cell.append((x,y))
                     line += end_chr
                 elif node == win:
+                    open_cell.append((x,y))
                     line += win_chr
                 elif path and ((node.x, node.y) in path or node in path):
                     open_cell.append((x,y))

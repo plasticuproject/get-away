@@ -23,8 +23,8 @@ def frame(level, new, end, win):
     win = grid.node(win[0], win[1])
 
     # pathfinding for NPC AI
-    #finder = AStarFinder()
-    finder = AStarFinder(diagonal_movement=DiagonalMovement.always)
+    finder = AStarFinder()
+    #finder = AStarFinder(diagonal_movement=DiagonalMovement.always)
     path, runs = finder.find_path(start, end, grid)
 
     # print frame
@@ -33,7 +33,6 @@ def frame(level, new, end, win):
 
 
     # return new position of NPC
-    # TODO this is buggy, crashes near boarders, needs fixed
     try:
         if path[1][0] == new[0] and path[1][1] == new[1] - 1:
             if (new[0], new[1] - 2) in walkable:
@@ -106,7 +105,6 @@ def main_loop(levels):
     npc.append(level().start)
     player = level().end
     win = level().win
-    back_player = player
 
     # win/loose logic
     while True:
