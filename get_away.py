@@ -30,7 +30,7 @@ def frame(level, new, end, win):
     walkable = grid.grid_str(path=path, start=starts, end=ends, win=wins)[1]
 
     # gives the NPC a random chance of moving 0, 1, or 2
-    # spaces along the path, and returns new position of npc
+    # spaces along the path, and returns new position of NPC
     # and list of open spaces
     rand3 = randint(0,3)
     try:
@@ -40,7 +40,7 @@ def frame(level, new, end, win):
         try:
             return path[2], walkable
 
-        # loose logic
+        # lose logic
         except IndexError:
             print('\n[*]Ninja you got caught.[*]\n')
             quit()
@@ -91,8 +91,11 @@ def main_loop(levels):
     player = level().end
     win = level().win
 
-    # win logic
+    # win/lose logic
     while True:
+        if player == npc[0]:
+            print('\n[*]Ninja you got caught.[*]\n')
+            quit()
         if player == win:
             print('\n[*]Ninja you won.[*]\n')
             input()
